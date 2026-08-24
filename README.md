@@ -1,3 +1,39 @@
+# see-through (torch) — RETIRED
+
+**Retired. The four component repositories are the line of work.** Nothing is deleted
+and no measurement is retracted. Upstream is unaffected: this is our fork, and
+`shitagaki-lab/see-through` continues.
+
+## Where the models went
+
+See-Through is four separately trained models, and this repository held all four. CLAUDE.md
+says one standalone repo per model rather than one repo with many model folders, so each is
+now forked from `shitagaki-lab/see-through` directly:
+
+| model | repository |
+| ----- | ---------- |
+| LayerDiff 3D, transparent layer generation | `weftspun/interactor-seethrough-layerdiff` |
+| Marigold Depth, anime pseudo-depth | `weftspun/interactor-seethrough-marigold-depth` |
+| VAE | `weftspun/interactor-seethrough-vae` |
+| SAM Body Parsing, 23 semantic parts | `weftspun/interactor-seethrough-partseg` |
+
+## What retirement costs, stated rather than discovered later
+
+Two things live here and in none of the four, so they go with this repository unless
+somebody moves them:
+
+**The end-to-end pipeline.** `inference/scripts/inference_psd.py` runs LayerDiff and
+Marigold in sequence to a layered PSD. A pipeline that composes four models is not any one
+of them, and splitting the models did not split it.
+
+**The RunPod image build.** `.github/workflows/image.yml` builds a linux/amd64 image, added
+here in three commits on top of upstream and serialised across branches. The component
+forks inherit upstream's workflows, not ours.
+
+Neither is a reason to keep the repository open — the decomposition was asked for and the
+cost is the price of it — but a cost nobody wrote down is a cost somebody rediscovers.
+
+---
 
 See-through: Single-image Layer Decomposition for Anime Characters
 ---
