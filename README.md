@@ -17,21 +17,26 @@ now forked from `shitagaki-lab/see-through` directly:
 | VAE | `weftspun/interactor-seethrough-vae` |
 | SAM Body Parsing, 23 semantic parts | `weftspun/interactor-seethrough-partseg` |
 
-## What retirement costs, stated rather than discovered later
+## What was ours, and where it went
 
-Two things live here and in none of the four, so they go with this repository unless
-somebody moves them:
+Two files here were ours rather than upstream's, added in three commits on top of 7f139bb.
+An archived repository is read-only, so they were moved before the flag was set:
+
+**The RunPod image build.** `Dockerfile` and `.github/workflows/image.yml` now live in
+`weftspun/interactor-seethrough-partseg`, copied byte for byte. The workflow names its image
+`${{ github.repository }}`, so it needed no adaptation to build under its new name. It went
+to one component fork rather than four: the build pulls several GB of cu128 torch wheels on
+a native amd64 runner, and four copies of one image is contention, not redundancy.
+
+## What did not move, stated rather than discovered later
 
 **The end-to-end pipeline.** `inference/scripts/inference_psd.py` runs LayerDiff and
-Marigold in sequence to a layered PSD. A pipeline that composes four models is not any one
-of them, and splitting the models did not split it.
+Marigold in sequence to a layered PSD. It composes models rather than being one, so no
+component fork is the right home for it, and it stays in this history.
 
-**The RunPod image build.** `.github/workflows/image.yml` builds a linux/amd64 image, added
-here in three commits on top of upstream and serialised across branches. The component
-forks inherit upstream's workflows, not ours.
-
-Neither is a reason to keep the repository open — the decomposition was asked for and the
-cost is the price of it — but a cost nobody wrote down is a cost somebody rediscovers.
+That is the remaining cost of the split. It is not a reason to keep the repository open —
+the decomposition was asked for and this is its price — but a cost nobody wrote down is a
+cost somebody pays twice.
 
 ---
 
