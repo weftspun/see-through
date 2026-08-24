@@ -1,3 +1,44 @@
+# see-through (torch) — RETIRED
+
+**Retired. The four component repositories are the line of work.** Nothing is deleted
+and no measurement is retracted. Upstream is unaffected: this is our fork, and
+`shitagaki-lab/see-through` continues.
+
+## Where the models went
+
+See-Through is four separately trained models, and this repository held all four. CLAUDE.md
+says one standalone repo per model rather than one repo with many model folders, so each is
+now forked from `shitagaki-lab/see-through` directly:
+
+| model | repository |
+| ----- | ---------- |
+| LayerDiff 3D, transparent layer generation | `weftspun/interactor-seethrough-layerdiff` |
+| Marigold Depth, anime pseudo-depth | `weftspun/interactor-seethrough-marigold-depth` |
+| VAE | `weftspun/interactor-seethrough-vae` |
+| SAM Body Parsing, 23 semantic parts | `weftspun/interactor-seethrough-partseg` |
+
+## What was ours, and where it went
+
+Two files here were ours rather than upstream's, added in three commits on top of 7f139bb.
+An archived repository is read-only, so they were moved before the flag was set:
+
+**The RunPod image build.** `Dockerfile` and `.github/workflows/image.yml` now live in
+`weftspun/interactor-seethrough-partseg`, copied byte for byte. The workflow names its image
+`${{ github.repository }}`, so it needed no adaptation to build under its new name. It went
+to one component fork rather than four: the build pulls several GB of cu128 torch wheels on
+a native amd64 runner, and four copies of one image is contention, not redundancy.
+
+## What did not move, stated rather than discovered later
+
+**The end-to-end pipeline.** `inference/scripts/inference_psd.py` runs LayerDiff and
+Marigold in sequence to a layered PSD. It composes models rather than being one, so no
+component fork is the right home for it, and it stays in this history.
+
+That is the remaining cost of the split. It is not a reason to keep the repository open —
+the decomposition was asked for and this is its price — but a cost nobody wrote down is a
+cost somebody pays twice.
+
+---
 
 See-through: Single-image Layer Decomposition for Anime Characters
 ---
